@@ -1,6 +1,7 @@
 package com.patika.emlakburadauserservice.service;
 
 import com.patika.emlakburadauserservice.converter.UserConverter;
+import com.patika.emlakburadauserservice.dto.request.UserGetByEmailRequest;
 import com.patika.emlakburadauserservice.dto.request.UserSaveRequest;
 import com.patika.emlakburadauserservice.exception.EmlakBuradaException;
 import com.patika.emlakburadauserservice.exception.ExceptionMessages;
@@ -53,13 +54,13 @@ public class UserService {
         return foundUser.get();
     }
 
-    public User getByEmail(String email) {
+    public User getByEmail(UserGetByEmailRequest email) {
 
-        Optional<User> foundUser = userRepository.findByEmail(email);
+        Optional<User> foundUser = userRepository.findByEmail(email.getEmail());
 
-        if (!foundUser.get().getIsActive()) {
-            log.error(ExceptionMessages.USER_NOT_ACTIVE);
-            throw new EmlakBuradaException(ExceptionMessages.USER_NOT_ACTIVE);
+        if (foundUser.isEmpty()) {
+            log.error(ExceptionMessages.USER_NOT_FOUND_BY_EMAIL);
+            throw new EmlakBuradaException(ExceptionMessages.USER_NOT_FOUND_BY_EMAIL);
         }
         log.info("customer found. {}", email);
         return foundUser.get();
