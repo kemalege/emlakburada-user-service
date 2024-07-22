@@ -1,5 +1,6 @@
 package com.patika.emlakburadauserservice.controller;
 
+import com.patika.emlakburadauserservice.dto.request.UserGetByEmailRequest;
 import com.patika.emlakburadauserservice.dto.request.UserSaveRequest;
 import com.patika.emlakburadauserservice.dto.response.GenericResponse;
 import com.patika.emlakburadauserservice.model.User;
@@ -35,8 +36,8 @@ public class UserController {
         return GenericResponse.success(user);
     }
 
-    @GetMapping("/email/{email}")
-    public GenericResponse<User> getByEmail(@PathVariable String email) {
+    @PostMapping("/email")
+    public GenericResponse<User> getByEmail(@RequestBody UserGetByEmailRequest email) {
         User user = userService.getByEmail(email);
         return GenericResponse.success(user);
     }
